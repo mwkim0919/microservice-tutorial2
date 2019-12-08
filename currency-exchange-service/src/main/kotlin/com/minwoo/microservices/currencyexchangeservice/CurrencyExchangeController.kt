@@ -11,16 +11,14 @@ import java.math.BigDecimal
 class CurrencyExchangeController
 
 @Autowired constructor(
-  private val environment: Environment
+  private val environment: Environment,
+  private val exchangeValueRepository: ExchangeValueRepository
 ) {
 
   @GetMapping("/currency-exchange/from/{from}/to/{to}")
   fun retrieveExchangeValue(@PathVariable from: String, @PathVariable to: String): ExchangeValue {
-    return ExchangeValue(
-      1000L,
-      from,
-      to,
-      BigDecimal.ONE,
-      Integer.parseInt(environment.getProperty("local.server.port")))
+    val exchangeValue = exchangeValueRepository.findByFromAndTo(from, to)
+    exchangeValue.port = Integer.parseInt(environment.getProperty("local.server.port"))
+    return exchangeValue
   }
 }
