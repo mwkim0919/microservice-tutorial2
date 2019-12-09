@@ -14,5 +14,5 @@ data class ExchangeValue(
   var port: Int?
 ) {
   // Why JPA! Why do you make me do this!?
-  private constructor() : this(0, "", "", BigDecimal.ZERO, 0)
+  private constructor(): this(0, "", "", BigDecimal.ZERO, 0)
 }
