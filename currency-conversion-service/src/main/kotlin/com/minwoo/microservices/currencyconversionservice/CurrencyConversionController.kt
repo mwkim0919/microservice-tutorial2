@@ -1,5 +1,7 @@
 package com.minwoo.microservices.currencyconversionservice
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,6 +14,8 @@ class CurrencyConversionController
 @Autowired constructor(
   private val currencyExchangeServiceProxy: CurrencyExchangeServiceProxy
 ) {
+
+  private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
   @GetMapping("/currency-converter/from/{from}/to/{to}/quantity/{quantity}")
   fun convertCurrency(
@@ -50,6 +54,8 @@ class CurrencyConversionController
     @PathVariable quantity: BigDecimal): CurrencyConversionBean? {
 
     val response = currencyExchangeServiceProxy.retrieveExchangeValue(from, to)
+
+    logger.info("response -> {}", response)
 
     return response.id?.let {
       CurrencyConversionBean(
